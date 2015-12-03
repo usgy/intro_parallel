@@ -1,0 +1,1 @@
+http://www.cc.u-tokyo.ac.jp/support/kosyu/03/kosyu-openmp_c.pdf
