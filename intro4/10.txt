@@ -1,0 +1,27 @@
+# 4.10 #pragma omp flush
+　実行中のスレッド間で共有変数や配列要素などの値の一貫性は通常保証されていません！
+これは最適化などんいよりレジスタ内で値が保証されている間はメモリに書き込まれないことが
+あるからです。「#pragma omp flush」指示文を使うことで、明示的にレジスタに保持されている値
+をメモリに書き出すことができます。  
+　ただし、下記の場所では自動的に flush が行われ、共有変数や配列要素などのメモリの一貫性が保たれます。  
+  
+```  
+#pragma omp parallel の入口と出口  
+#pragma omp for と #pragma omp parallel for の出口  
+#pragma omp sections と #pragma omp parallel sectionsの出口  
+#pragma omp single の出口  
+#pragma omp critical の入口と出口  
+#pragma omp barrier  
+@pragma omp orderd の入口と出口  
+```  
+  
+ただし、nowait 指示節を入れるとflush は行われません。  
+逆に、下記の場所では、flush が行われないので注意が必要です。  
+  
+```  
+#pragma omp for と #pragma omp parallel for の入口  
+#pragma omp sections と #pragma omp parallel sections の入口  
+#pragma omp single の入口  
+#pragma omp master の入口と出口  
+```  
+  
